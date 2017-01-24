@@ -4,7 +4,7 @@
 
 // Hash manipulation functions in hash_functions.c
 void hash(char *hash_val, long block_size);
-void check_hash(const char *hash1, const char *hash2, long block_size);
+int check_hash(const char *hash1, const char *hash2, long block_size);
 
 #ifndef MAX_BLOCK_SIZE
     #define MAX_BLOCK_SIZE 1024
