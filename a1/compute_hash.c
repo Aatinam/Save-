@@ -40,7 +40,16 @@ void show_hash(char *hash_val, long block_size) {
 int main(int argc, char **argv) {
     char hash_val[MAX_BLOCK_SIZE] = {'\0'};
     long block_size;
-
+    char* leftover;
+    if(argc == 1 || argc > 3){
+    printf("Usage: compute_hash BLOCK_SIZE [ COMPARISON_HASH ]\n");
+    return 1;
+    }
+   block_size = strtol(argv[1], &leftover, 10);
+   if(block_size <= 0 || block_size > MAX_BLOCK_SIZE){
+   printf("The block size should be a positive integer less than %d.\n", MAX_BLOCK_SIZE);
+   return 1;
+   }   
     return 0;
 }
 
