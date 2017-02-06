@@ -23,8 +23,10 @@ int j = 0;
 }
 
 int check_hash(const char *hash1, const char *hash2, long block_size) {
-
-    // A place holder so that the file will compile without error.
-	// Replace with the correct return value.
-    return -1;
+int i;
+for(i = 0; i < block_size; i++){
+		if(hash1[i] != hash2[i]){
+		return i;
+		}} //end for loop 
+		return block_size;
 }
