@@ -40,28 +40,35 @@ void show_hash(char *hash_val, long block_size) {
 int main(int argc, char **argv) {
     char hash_val[MAX_BLOCK_SIZE] = {'\0'};
     long block_size;
-    if(argc == 1 || argc > 3){
-    printf("Usage: compute_hash BLOCK_SIZE [ COMPARISON_HASH ]\n");
-    return 1;   
+    
+    //checking number of arguments 
+    if(argc == 1 || argc > 3) {
+    		printf("Usage: compute_hash BLOCK_SIZE [ COMPARISON_HASH ]\n");
+    		return 1;   
     }
+   
    block_size = strtol(argv[1], NULL, 10);
-   if(block_size <= 0 || block_size > MAX_BLOCK_SIZE){
-   printf("The block size should be a positive integer less than %d.\n", MAX_BLOCK_SIZE);
-   return 1;
+   
+   if(block_size <= 0 || block_size > MAX_BLOCK_SIZE) {
+   		printf("The block size should be a positive integer less than %d.\n", MAX_BLOCK_SIZE);
+   		return 1;
    }  
+   
  	//test for Part2
+ 	
  	char hash_val1[block_size];
  	hash(hash_val1, block_size);
 	printf("\nThe following is the computed hash:\n");   
    show_hash(hash_val1, block_size);
    
    //test for Part3
-	int save_return;   
+	  
 	if(argc == 3){
-   xstr_to_hash(hash_val, argv[2], block_size);
-   save_return = check_hash(hash_val1, hash_val, block_size);
-	printf("The function check_hash returned:\n");   
-   printf("%d\n", save_return);
-}
+			int save_return; 
+   		xstr_to_hash(hash_val, argv[2], block_size);
+   		save_return = check_hash(hash_val1, hash_val, block_size);
+			printf("The function check_hash returned:\n");   
+   		printf("%d\n", save_return);
+	}
 }
 
