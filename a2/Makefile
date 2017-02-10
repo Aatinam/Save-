@@ -1,4 +1,4 @@
-FLAGS = -Wall -std=c99
+FLAGS = -Wall -std=gnu99
 DEPENDENCIES = hash.h ftree.h
 
 all: print_ftree
