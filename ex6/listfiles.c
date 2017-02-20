@@ -27,10 +27,11 @@ int compare_names(const void *n1, const void *n2) {
 
 	// TODO Cast the arguments to the appropriate type to compare
 	// the name field of the dirent structs passed as argumnents n1 and n2
-
 	// TODO: return the result of the comparision.
-
-	return 0;
+	
+	struct dirent* first_struct = (struct dirent*) n1;
+	struct dirent* second_struct = (struct dirent*) n2;
+	return (-1 * strcmp( first_struct-> d_name, second_struct-> d_name));
 }
 
 /* Print an array of dirents by name
@@ -71,20 +72,26 @@ int main(int argc, char **argv) {
 	 * (the number of entries in the directory that do not begin with '.')
 	 */
 	 int i;
-
+	 i = 0;
 	 // TODO: Add the code to populate the array with directory entries.
 	 // Tip: "man readdir"
-
-	if(i == MAXDIRS && dp != NULL) {
+	 
+	 while((dp = readdir(dirp)) != NULL){
+	 	if(((dp -> d_name)[0]) != '.' ){
+	 	dirs[i] = *dp;
+	 	i++;
+	 	}if(i == MAXDIRS && dp != NULL) {
 		fprintf(stderr, 
 		    "Error: program does not support more than %d entries\n", MAXDIRS);
 	}
+}
 	closedir(dirp);
 	
 	
 	// Sort dirs by name in descending alphabetical order
 	// TODO: call qsort with the appropriate arguments to sort the array of
 	// struct dirents
+	qsort(dirs, i + 1,sizeof(dirs[0]), compare_names);
 
 	printf("List the directory entries sorted in descending order:\n");
 	show_dirs(dirs, i);
