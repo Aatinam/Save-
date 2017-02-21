@@ -45,8 +45,14 @@ void show_hash(char *hash_val) {
     }
     printf("\n");
 }
+
 int main(){
-	
-	show_hash(hash("/csc209/muniraat/a2"));	
+		FILE *f = fopen("/h/u14/c5/00/muniraat/CSC209/muniraat/a2/TestFile", "r");
+		if(f != NULL) {
+ 			show_hash(hash(f));	
+ 		}else {
+ 			printf("Incorrect path");
+ 		}
+ 		
 return 0;
 }
