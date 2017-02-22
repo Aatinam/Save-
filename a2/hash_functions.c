@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define BLOCK_SIZE 8
+#include hash.h
 
 /* Computes hash for data provided via fread and stores it in hash_val,
 *  an array of char. The hash implementation is based on xor and the
