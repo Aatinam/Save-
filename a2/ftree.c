@@ -11,10 +11,33 @@
 
 #include "ftree.h"
 #include "hash.h"
+#define MAXDIRS 100
 
-/*a recursive function that creates fills in TreeNode, given a starting node
-*/
-struct TreeNode *fill_node(const char* path){
+/*generates path for next */
+
+char *generate_path(struct dirent* next_node, const char* path){
+	 
+	 if(next_node != NULL && (next_node -> d_name)[0] != '.'){
+	 	               int path_len = strlen(path);
+	 	               int name_len = strlen(next_node -> d_name);
+	 						int required_length = path_len + name_len + 3;
+	 						char new_path[required_length];
+	 						strcat(new_path, path);
+	 						strcat(new_path, '/'); //do i need escape char
+	 						strcat(new_path, (new_node -> d_name));
+	 					}	
+	  return new_path;
+	  }
+	  
+/*Assign n1 -> next = n2*/
+void assign_next(struct TreeNode *n1, struct TreeNode *n2){
+	n1 -> next = n2;
+}
+
+/*
+ * Returns the FTree rooted at the path fname.
+ */
+struct TreeNode *generate_ftree(const char *fname) {
 
 struct stat *buff;
 	if(lstat(path, buff) != 0){ //error
@@ -43,42 +66,38 @@ struct stat *buff;
 				}	 //strcpy or is this okay??
 		}if(S_ISDIR(buff -> st_mode)) {
 			new_node -> hash = NULL;
+			struct dirent dirs[MAXDIRS];
 			struct dirent *dp;
 			DIR *dirp = opendir(path);
 				if(dirp == NULL) {
 					perror("opendir");
 					exit(1);
 				} else {
-					dp = readdir(dirp); //if path is not null read first element in dir
-	 				if(dp != NULL && ((dp -> d_name)[0] != '.')){
-	 	               int path_len = strlen(path);
-	 	               int name_len = strlen(dp -> d_name);
-	 						int required_length = path_len + name_len + 5;
-	 						char new_path[required_length];
-	 						strcat(new_path, path);
-	 						strcat(new_path, '/'); //do i need escape char
-	 						strcat(new_path, (dp-> d_name));
-	 						new_node -> contents = fill_node(new_path);
-					  }dp = readdir(dirp);
-					  if(dp != NULL && (dp -> d_name)[0]) != '.' ){
-	 						int required_length = strlen(path) + strlen(dp -> d_name) + 5;
-	 						char new_path[required_length];
-	 						strcat(new_path, path);
-	 						strcat(new_path, '/'); //do i need escape char
-	 						strcat(new_path, (dp-> d_name));
-	 						(new_node -> contents) -> next = fill_node(new_path);
-				 }
+				 int i = 0;
+	 			 while((dp = readdir(dirp)) != NULL){
+	 			if(((dp -> d_name)[0]) != '.' ){
+	 				dirs[i] = *dp;
+	 				i++;
+	 			}if(i == MAXDIRS && dp != NULL) {
+				fprintf(stderr, 
+		    	"Error: program does not support more than %d entries\n", MAXDIRS);
+				}
+			}	
+				closedir(dirp);
+				int j;
+				struct TreeNode* tn_array[i + 1];
+				for(j = 0; j < (i + 1); j++){
+				char *new_path = generate_path(dirs[j], path);
+				Tn_array[j] = generate_ftree(new_path);
+				new_node -> contents = tn_array[0];
+				int k;
+				for(k = 0; k < i; k ++){
+				assign_next(Tn_array[k], Tn_array[k+1]);
+				}
 			}
 			/*set next*/
 		   new_node -> next = NULL;
 	}
-}
-
-/*
- * Returns the FTree rooted at the path fname.
- */
-struct TreeNode *generate_ftree(const char *fname) {
-    // Your implementation here.
     return NULL;
 }
 
