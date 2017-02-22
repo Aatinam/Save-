@@ -12,6 +12,7 @@ struct stat *buff;
 	if(lstat(path, buff) != 0){ //error
 		printf("%s\n", sterror(errno));
 	}else{
+		
 		struct TreeNode new_node;
 		/*set name */
 		char *extract_name = strrchar(path, '/'); //last occurrence of '/'
@@ -22,16 +23,31 @@ struct stat *buff;
 		new_node.persissions = ((buff -> st_mode) & 0777); 	
 		
 		/*	set contents if directory, set hash if file or link*/
-		if(!S_ISDIR(buff -> st_mode)){ //file or link
+		if(S_ISREG(buff -> st_mode) || S_ISLNK(buff -> st_mode){ //file or link 
 			new_node.contents = NULL;
 			new_node.hash = hash(path); //strcpy or is this okay??
-		}else {
+		}if(S_ISDIR(buff -> st_mode) {
 			new_node.hash = NULL;
 			struct dirent *dp;
-			
-						
+			DIR *dirp = opendir(path);
+				if(dirp == NULL) {
+					perror("opendir");
+					exit(1);
+				} else {
+					dp = readdir(dirp); //if path is not null read first element in dir
+	 				if(dp != NULL && (dp -> d_name)[0]) != '.' ){
+	 						int required_length = strlen(path) + strlen(dp -> d_name) + 5;
+	 						char new_path[required_length];
+	 						strcat(new_path, path);
+	 						strcat(new_path, '/'); //do i need escape char
+	 						strcat(new_path, (dp-> d_name));
+	 						new_node.contents = fill_node(new_path);
+					  }
+				 }
 			}
-			
+			/*set next*/
+		   readdir(path) //read dir on same path level as first func call, still need to do opendir and stuff 
+		   if
 	}
 }
 
