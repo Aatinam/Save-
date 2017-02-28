@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include hash.h
+#define BLOCK_SIZE 8
 
 /* Computes hash for data provided via fread and stores it in hash_val,
 *  an array of char. The hash implementation is based on xor and the
@@ -46,7 +46,7 @@ void show_hash(char *hash_val) {
     printf("\n");
 }
 
-int main(){
+/*int main(){
 		FILE *f = fopen("/h/u14/c5/00/muniraat/CSC209/muniraat/a2/TestFile", "r");
 		if(f != NULL) {
  			show_hash(hash(f));	
@@ -55,4 +55,4 @@ int main(){
  		}
  		
 return 0;
-}
+}*/
